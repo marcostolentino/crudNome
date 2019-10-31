@@ -1,67 +1,4 @@
-<?
-
-//PRINT_R PRE
-function pr($dado, $print_r = true) {
-    echo '<pre>';
-    if ($print_r) {
-        print_r($dado);
-    } else {
-        var_dump($dado);}
-}
-
-try {
-
-    //CONEXAO
-    $PDO = new PDO('mysql:host=127.0.0.1;dbname=CRUD', 'root', '');
-    $PDO->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-
-    $mensagemErro = '';
-    $pessoaArray = [];
-
-    //INCLUIR
-    if (@$_POST['ACAO'] == 'Incluir') {
-        $acaoDescricaoOk = 'Incluído';
-        $pesIncluir = $PDO->prepare('INSERT INTO PESSOA (NOME) VALUES(:NOME)');
-        $ok = $pesIncluir->execute(array(
-            ':NOME' => $_POST['NOME']
-        ));
-    }
-    //ALTERAR
-    elseif (@$_POST['ACAO'] == 'Alterar') {
-        $acaoDescricaoOk = 'Alterado';
-        $pesAlterar = $PDO->prepare('UPDATE PESSOA SET  NOME = :NOME WHERE ID_PESSOA = :ID_PESSOA');
-        $ok = $pesAlterar->execute(array(
-            ':NOME' => $_POST['NOME'],
-            ':ID_PESSOA' => $_POST['ID_PESSOA']
-        ));
-        
-    }
-    //EXCLUIR
-    elseif (@$_POST['ACAO'] == 'Excluir') {
-        $acaoDescricaoOk = 'Excluído';
-        $pesExcluir = $PDO->prepare('DELETE FROM PESSOA WHERE ID_PESSOA = :ID_PESSOA');
-        $ok = $pesExcluir->execute(array(
-            ':ID_PESSOA' => $_POST['ID_PESSOA']
-        ));
-    }
-    //CANCELAR
-    elseif (@$_POST['ACAO'] == 'Cancelar') {
-        unset($_POST);
-    }
-} catch (Exception $ex) {
-    $mensagemErro = "<br><small>{$ex->getMessage()}</small><br>";
-}
-
-//LISTAR
-$sql = "
-        SELECT ID_PESSOA, 
-               NOME
-          FROM PESSOA
-      ORDER BY NOME
-    ";
-$pessoaQuery = $PDO->query($sql);
-?>
-
+<? require_once 'funcoes.php'; ?>
 <center>
     <?
     if (@$_POST['ACAO'] && @$ok == 1) {
@@ -72,9 +9,8 @@ $pessoaQuery = $PDO->query($sql);
     ?>
     <table border="1" style="min-width: 500px">
         <tr style=" vertical-align: top">
-            <td style="text-align: right;">
+            <td style="text-align: right; padding-right: 10px">
                 <h2 style="text-align: center">Listar Pessoas</h2> 
-
                 <?
                 if ($pessoaQuery->rowCount() == 0) {
                     echo '<h5 style="text-align: center; color: blue">Não existem pessoas para listar!</h5>';
@@ -95,13 +31,25 @@ $pessoaQuery = $PDO->query($sql);
                 $acaoDescricao = ($pessoaAlterar ? 'Alterar' : 'Incluir');
                 ?>
             </td>
-            <td style="text-align: center;">
-                <h2><?= $acaoDescricao ?> Pessoa</h2> 
+            <td style="padding-left: 10px">
+                <h2 style="text-align: center;"><?= $acaoDescricao ?> Pessoa</h2> 
                 <form method="POST">
-                    <input name="ID_PESSOA" value="<?= $pessoaAlterar['ID_PESSOA'] ?>" hidden>
-                    <input name="NOME" value="<?= $pessoaAlterar['NOME'] ?>" maxlength="100" required><br>
-                    <input name="ACAO" value="<?= $acaoDescricao ?>" type="submit">
-                    <input name="ACAO" value="Cancelar" type="submit">
+                    <input type="text" name="ID_PESSOA" value="<?= $pessoaAlterar['ID_PESSOA'] ?>" hidden>
+                    <label>Nome:</label>
+                    <input type="text" name="NOME" value="<?= @$pessoaAlterar['NOME'] ?>" minlength="3" maxlength="100" required><br>
+                    <label>UF:</label>
+                    <select name="UF" required>
+                        <option></option>
+                        <option value="SC" <?= (@$pessoaAlterar['UF'] == 'SC' ? 'selected' : '') ?>>SC</option>
+                        <option value="OU" <?= (@$pessoaAlterar['UF'] == 'OU' ? 'selected' : '') ?>>Outro</option>
+                    </select><br>
+                    <label style="font-weight: normal">Observação:</label>
+                    <textarea maxlength="1000" style="height: 100px" name="OBSERVACAO"><?= @$pessoaAlterar['OBSERVACAO'] ?></textarea>
+                    <hr>
+                    <div style="border: 0px solid; text-align: center">
+                        <input name="ACAO" value="<?= $acaoDescricao ?>" type="submit">
+                        <input name="ACAO" value="Cancelar" type="submit">
+                    </div>
                 </form>
             </td>
         </tr>
