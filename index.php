@@ -1,4 +1,15 @@
 <? require_once 'funcoes.php'; ?>
+
+<style>
+    label {
+        font-weight: bold;
+        display: block;
+    }
+    select, textarea {
+        width: 173px;        
+    }
+</style>
+
 <center>
     <?
     if (@$_POST['ACAO'] && @$ok == 1) {
@@ -12,6 +23,7 @@
             <td style="text-align: right; padding-right: 10px">
                 <h2 style="text-align: center">Listar Pessoas</h2> 
                 <?
+                $pessoaQuery = pessoaListar();
                 if ($pessoaQuery->rowCount() == 0) {
                     echo '<h5 style="text-align: center; color: blue">Não existem pessoas para listar!</h5>';
                 }
