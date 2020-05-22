@@ -1,4 +1,4 @@
-# Exemplo de CRUD estrutural com mysql e pdo com funções separadas
+# Exemplo de CRUD estrutural com PHP, Mysql e Pdo com funções separadas
 
 Projeto voltado a fazer um crud fácil e simples com funções separadas. 
 
