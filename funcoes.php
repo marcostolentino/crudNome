@@ -11,7 +11,7 @@ function pr($dado, $print_r = true) {
 }
 
 function pdo() {
-    $PDO = new PDO('mysql:host=127.0.0.1;dbname=CRUD', 'root', '');
+    $PDO = new PDO('mysql:host='.MYSQL_HOST.';dbname='.MYSQL_DBNAME, MYSQL_USERNAME, MYSQL_PASSWORD);
     $PDO->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
     return $PDO;
 }
