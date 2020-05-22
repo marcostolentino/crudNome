@@ -1,6 +1,6 @@
-# Exemplo de CRUD estrutural com mysql e pdo
+# Exemplo de CRUD estrutural com mysql e pdo com funções separadas
 
-Projeto voltado a fazer um crud fácil e simples. 
+Projeto voltado a fazer um crud fácil e simples com funções separadas. 
 
 ## Requisitos
 
