@@ -8,6 +8,10 @@ Projeto voltado a fazer um crud fácil e simples com funções separadas.
 .Pdo  
 .Mysql  
 
+## PHP - Habilitar
+
+.short_open_tag
+
 ## Instação
 
 .Execute o arquivo Artefatos/PESSOA.sql no Mysql

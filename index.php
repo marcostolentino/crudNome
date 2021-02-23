@@ -55,7 +55,7 @@ $acaoDescricao = ($pessoaAlterar ? 'Alterar' : 'Incluir');
             <td style="padding-left: 10px">
                 <h2 style="text-align: center;"><?= $acaoDescricao ?> Pessoa</h2> 
                 <form method="POST">
-                    <input type="text" name="ID_PESSOA" value="<?= $pessoaAlterar['ID_PESSOA'] ?>" hidden>
+                    <input type="text" name="ID_PESSOA" value="<?= @$pessoaAlterar['ID_PESSOA'] ?>" hidden>
                     <label>Nome:</label>
                     <input type="text" name="NOME" value="<?= @$pessoaAlterar['NOME'] ?>" minlength="3" maxlength="100" required><br>
                     <label>UF:</label>
